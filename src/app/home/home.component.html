@@ -1,0 +1,69 @@
+
+<button class="btn-modal" (click)="setModal()">Добавить товар</button>
+<div *ngIf="modal" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h2>Добавить товар</h2>
+    <div class="form-group">
+      <label for="productName">Имя:</label>
+      <input
+        type="text"
+        id="productName"
+        [(ngModel)]="productName"
+        placeholder="Введите название"
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="productPrice">Цена:</label>
+      <input
+        type="number"
+        id="productPrice"
+        [(ngModel)]="productPrice"
+        placeholder="Введите цену"
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="productImage">Аватар:</label>
+      <input
+        type="text"
+        id="productImage"
+        [(ngModel)]="productImage"
+        placeholder="Введите ссылку на изображение"
+        class="form-input"
+      />
+    </div>
+
+    <p class="error-message">{{ error }}</p>
+    <button class="submit-button" (click)="addProduct()">Добавить</button>
+  </div>
+</div>
+<div class="search">
+  <input type="text" (input)="search($event)" placeholder="Поиск..." />
+</div>
+
+
+<div class="products">
+  @for (product of filterProducts; track $index) {
+    <div class="card">
+      <div class="img-card">
+        <img width="100px" [src]="product.image" alt="" />
+      </div>
+      <div class="card-info">
+        <p class="card-title">{{ product.name }}</p>
+        <div class="card-description">{{ product.description }}</div>
+        <p class="card-price">{{ product.price }}</p>
+        <button
+          (click)="addProductBasket(product)"
+          class="add-to-cart-btn"
+          [ngClass]="{ 'added': addCart[product.id] }"
+          [disabled]="addCart[product.id]"
+        >
+          {{ addCart[product.id] ? 'Добавлено в корзину ✅' : 'Добавить в корзину' }}
+        </button>
+      </div>
+    </div>
+  }
+</div>
