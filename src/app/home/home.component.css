@@ -220,3 +220,28 @@ button:active {
 .added {
   background-color: #4CAF50;
 }
+
+.search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.search input {
+  width: 100%;
+  max-width: 400px;
+  padding: 12px 18px;
+  border: 2px solid #ccc;
+  border-radius: 25px;
+  font-size: 16px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.search input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+  outline: none;
+}

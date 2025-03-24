@@ -1,0 +1,32 @@
+<div class="user-form">
+  <label for="userName">Имя:</label>
+  <input
+    type="text"
+    id="userName"
+    [(ngModel)]="userName"
+    placeholder="Введите имя"
+    class="form-input"
+  />
+
+  <label for="userAge">Возраст:</label>
+  <input
+    type="number"
+    id="userAge"
+    [(ngModel)]="userAge"
+    placeholder="Введите возраст"
+    class="form-input"
+  />
+
+  <label for="userAvatar">Аватар:</label>
+  <input
+    type="text"
+    id="userAvatar"
+    [(ngModel)]="userAvatar"
+    placeholder="Введите ссылку на изображение"
+    class="form-input"
+  />
+
+  <p class="error-message">{{ error }}</p>
+
+  <button (click)="addUser()" class="submit-button">Добавить</button>
+</div>
