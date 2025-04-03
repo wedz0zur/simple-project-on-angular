@@ -1,4 +1,10 @@
 <div class="user-form">
+  <h2>Регистрация</h2>
+  
+  <div class="success-message" *ngIf="showSuccessMessage">
+    Пользователь успешно зарегистрирован!
+  </div>
+
   <label for="userName">Имя:</label>
   <input
     type="text"
@@ -6,6 +12,7 @@
     [(ngModel)]="userName"
     placeholder="Введите имя"
     class="form-input"
+    [class.input-error]="!userName && error"
   />
 
   <label for="userAge">Возраст:</label>
@@ -15,18 +22,58 @@
     [(ngModel)]="userAge"
     placeholder="Введите возраст"
     class="form-input"
+    [class.input-error]="(!userAge || userAge <= 0) && error"
+    min="1"
   />
 
-  <label for="userAvatar">Аватар:</label>
+  <label for="userPassword">Пароль (минимум 6 символов):</label>
+  <input 
+    type="password" 
+    id="userPassword"
+    [(ngModel)]="userPassword" 
+    placeholder="Введите пароль"
+    class="form-input"
+    [class.input-error]="isPasswordWeak"
+  />
+  <p class="error-hint" *ngIf="isPasswordWeak">
+    Пароль слишком короткий (минимум 6 символов)
+  </p>
+  
+  <label for="userCheckPassword">Подтвердите пароль:</label>
+  <input 
+    type="password" 
+    id="userCheckPassword"
+    [(ngModel)]="userCheckPassword" 
+    placeholder="Повторите пароль"
+    class="form-input"
+    [class.input-error]="passwordMismatch"
+  />
+  
+  <p class="error-message" *ngIf="passwordMismatch">
+    Пароли не совпадают
+  </p>
+
+  <label for="userAvatar">Аватар (URL):</label>
   <input
     type="text"
     id="userAvatar"
     [(ngModel)]="userAvatar"
+    (ngModelChange)="onAvatarChange()"
     placeholder="Введите ссылку на изображение"
     class="form-input"
   />
 
+  <div class="avatar-preview" *ngIf="userAvatar">
+    <img [src]="userAvatar" alt="Предпросмотр аватара" onerror="this.style.display='none'">
+  </div>
+
   <p class="error-message">{{ error }}</p>
 
-  <button (click)="addUser()" class="submit-button">Добавить</button>
+  <button
+    (click)="addUser()"
+    class="submit-button"
+    [disabled]="!isFormValid || isSubmitting"
+  >
+    {{ isSubmitting ? 'Регистрация...' : 'Зарегистрироваться' }}
+  </button>
 </div>
