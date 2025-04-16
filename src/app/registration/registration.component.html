@@ -5,15 +5,38 @@
     Пользователь успешно зарегистрирован!
   </div>
 
-  <label for="userName">Имя:</label>
+  <label for="name">Имя:</label>
+  <input
+    type="text"
+    id="name"
+    [(ngModel)]="name"
+    placeholder="Введите имя"
+    class="form-input"
+    [class.input-error]="!name && error"
+  />
+
+  <label for="userName">Username:</label>
   <input
     type="text"
     id="userName"
     [(ngModel)]="userName"
-    placeholder="Введите имя"
+    placeholder="Введите username"
     class="form-input"
     [class.input-error]="!userName && error"
   />
+
+  <label for="userEmail">Email:</label>
+  <input
+    type="email"
+    id="userEmail"
+    [(ngModel)]="userEmail"
+    placeholder="Введите email"
+    class="form-input"
+    [class.input-error]="!userEmail"
+  />
+  <p class="error-message" *ngIf="!userEmail">
+    Пожалуйста, введите корректный email
+  </p>
 
   <label for="userAge">Возраст:</label>
   <input
@@ -53,24 +76,10 @@
     Пароли не совпадают
   </p>
 
-  <label for="userAvatar">Аватар (URL):</label>
-  <input
-    type="text"
-    id="userAvatar"
-    [(ngModel)]="userAvatar"
-    (ngModelChange)="onAvatarChange()"
-    placeholder="Введите ссылку на изображение"
-    class="form-input"
-  />
-
-  <div class="avatar-preview" *ngIf="userAvatar">
-    <img [src]="userAvatar" alt="Предпросмотр аватара" onerror="this.style.display='none'">
-  </div>
-
   <p class="error-message">{{ error }}</p>
 
   <button
-    (click)="addUser()"
+    (click)="authorization()"
     class="submit-button"
     [disabled]="!isFormValid || isSubmitting"
   >

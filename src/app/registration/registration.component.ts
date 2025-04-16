@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { RegistrationService } from '../service/registration.service';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-registration',
@@ -12,8 +14,10 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent {
+  name:string = "";
   userName: string = "";
   userAge: number | null = null;
+  userEmail: string = "";
   userPassword: string = "";
   userCheckPassword: string = "";
   userAvatar: string = "https://avatars.mds.yandex.net/i?id=93932abfd430c7aab32a3d45806ea6e6d4d0523a-4944707-images-thumbs&n=13";
@@ -39,7 +43,7 @@ export class RegistrationComponent {
   get isPasswordWeak(): boolean {
     return this.userPassword.length > 0 && this.userPassword.length < 6;
   }
-
+  http = inject(HttpClient);
   addUser(): void {
     if (!this.isFormValid) {
       this.error = "Пожалуйста, заполните все поля корректно";
@@ -88,4 +92,35 @@ export class RegistrationComponent {
       this.error = "";
     }
   }
+
+  authorization() {
+    const user = {
+      name: this.name,
+      username: this.userName,
+      age: this.userAge,
+      email: this.userEmail,
+      password: this.userPassword,
+    };
+
+    this.http
+    .post('http://localhost:5000/auth/registration', user)
+    .subscribe({
+      next: (res: any) => {
+        if (res === 'Регистрация прошла успешно') {
+          this.showSuccessMessage = true;
+          setTimeout(() => this.resetForm(), 2000);
+        } else {
+          this.error = 'Не удалось зарегистрировать пользователя';
+        }
+      },
+      error: (err) => {
+        this.error = err.error?.message || 'Ошибка регистрации';
+        console.error('HTTP error:', err);
+      },
+      complete: () => {
+        this.isSubmitting = false;
+      }
+    });
+  }
+
 }
