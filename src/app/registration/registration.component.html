@@ -1,6 +1,4 @@
-
-
-<div class="user-form">
+<form class="user-form">
   <h2>Регистрация</h2>
   
   <div class="success-message" *ngIf="showSuccessMessage">
@@ -63,7 +61,13 @@
     class="form-input"
     
   />
-  
+  <label for="avatar">Добавить фото:</label>
+  <input 
+    type="password" 
+    id="avatar"
+    class="form-input"
+    (change)="onFileSelected($event)"
+  />
   <p class="error-message">
     {{errorPassword}}
   </p>
@@ -80,4 +84,4 @@
   >
     {{ isSubmitting ? 'Регистрация...' : 'Зарегистрироваться' }}
   </button>
-</div>
+</form>
