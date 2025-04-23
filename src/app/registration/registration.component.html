@@ -1,3 +1,5 @@
+
+
 <div class="user-form">
   <h2>Регистрация</h2>
   
@@ -12,7 +14,6 @@
     [(ngModel)]="name"
     placeholder="Введите имя"
     class="form-input"
-    [class.input-error]="!name && error"
   />
 
   <label for="userName">Username:</label>
@@ -22,7 +23,6 @@
     [(ngModel)]="userName"
     placeholder="Введите username"
     class="form-input"
-    [class.input-error]="!userName && error"
   />
 
   <label for="userEmail">Email:</label>
@@ -32,11 +32,7 @@
     [(ngModel)]="userEmail"
     placeholder="Введите email"
     class="form-input"
-    [class.input-error]="!userEmail"
   />
-  <p class="error-message" *ngIf="!userEmail">
-    Пожалуйста, введите корректный email
-  </p>
 
   <label for="userAge">Возраст:</label>
   <input
@@ -45,7 +41,6 @@
     [(ngModel)]="userAge"
     placeholder="Введите возраст"
     class="form-input"
-    [class.input-error]="(!userAge || userAge <= 0) && error"
     min="1"
   />
 
@@ -56,11 +51,8 @@
     [(ngModel)]="userPassword" 
     placeholder="Введите пароль"
     class="form-input"
-    [class.input-error]="isPasswordWeak"
+    
   />
-  <p class="error-hint" *ngIf="isPasswordWeak">
-    Пароль слишком короткий (минимум 6 символов)
-  </p>
   
   <label for="userCheckPassword">Подтвердите пароль:</label>
   <input 
@@ -69,19 +61,22 @@
     [(ngModel)]="userCheckPassword" 
     placeholder="Повторите пароль"
     class="form-input"
-    [class.input-error]="passwordMismatch"
+    
   />
   
-  <p class="error-message" *ngIf="passwordMismatch">
-    Пароли не совпадают
+  <p class="error-message">
+    {{errorPassword}}
   </p>
+  <p style="color: red;">{{errorValid}}</p>
 
   <p class="error-message">{{ error }}</p>
+
+  <input type="file" onchange="uploadFile(event)">
 
   <button
     (click)="authorization()"
     class="submit-button"
-    [disabled]="!isFormValid || isSubmitting"
+    
   >
     {{ isSubmitting ? 'Регистрация...' : 'Зарегистрироваться' }}
   </button>
