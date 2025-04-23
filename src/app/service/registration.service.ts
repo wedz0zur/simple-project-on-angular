@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -5,6 +6,13 @@ import { Injectable } from "@angular/core";
 })
 export class RegistrationService {
   users: any = []
+  
+  constructor(private http: HttpClient) {}
+  registreUser(formData: FormData){
+    return this.http.post("http://localhost:5000/auth/registration", formData)
+  }
+
+
   getUsers(){
     const storedUsers = localStorage.getItem('users');
     if (storedUsers) {
@@ -19,5 +27,4 @@ export class RegistrationService {
     this.users.push(newUser);
     localStorage.setItem("users", JSON.stringify(this.users));
   }
-  constructor() {}
 }
