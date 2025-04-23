@@ -37,8 +37,37 @@ export class RegistrationComponent {
     formDataToSend.append("email", formData.userEmail);
     formDataToSend.append("password", formData.userPassword);
 
-    if(formData.userAvatar instanceof File){
+    if (formData.userAvatar instanceof File) {
       formDataToSend.append("avatar", formData.userAvatar);
+    } else {
+      formDataToSend.append("avatar", formData.userAvatar || "");
+    }
+
+    this.registrationService.registreUser(formDataToSend).subscribe({
+      next: (res: any) => {
+        if (res === "Регистрация прошла успешно" || res.status(200)) {
+          this.showSuccessMessage = true;
+        } else {
+          this.error = "Не удалось зарегистрировать пользователя";
+        }
+        this.isSubmitting = false;
+      },
+      error: (e) => {
+        this.error = e.error?.message || "Ошибка регистрации";
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+      if (!allowedTypes.includes(file.type)) {
+        this.error = "Допустимы только файлы типа jpeg, jpg, png"
+        return
+      }
     }
   }
 
